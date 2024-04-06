@@ -1,5 +1,19 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from .models import Pessoa
+
+def minha_view(request):
+    pessoas = Pessoa.objects.all()
+
+    data = {
+        'pessoas': [
+            {'id': pessoa.id, 'nome': pessoa.nome}
+            for pessoa in pessoas
+        ]
+    }
+
+    return JsonResponse(data)
+
 def home(request):
     pessoas = Pessoa.objects.all()
     return render(request, "index.html",{"pessoas":pessoas})
